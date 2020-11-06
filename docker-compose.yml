@@ -8,3 +8,4 @@ services:
       - HOST=example.com
       - TOKEN=YOURCLOUDFLARETOKEN
       - TIMEOUT=60
+    restart: unless-stopped
