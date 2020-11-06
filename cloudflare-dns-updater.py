@@ -101,42 +101,44 @@ def main():
 
     while True:
         print('Checking to see if the public IP has changed...')
-        try:
-            dns_name = host
-        except:
-            exit('usage: cloudflare-dns-updater.py fqdn-hostname')
+        for i in host:
+            try:
+                dns_name = i
+            except:
+                exit('usage: cloudflare-dns-updater.py fqdn-hostname')
 
-        host_name, zone_name = '.'.join(dns_name.split('.')[:2]), '.'.join(dns_name.split('.')[-2:])
+            host_name, zone_name = '.'.join(dns_name.split('.')[:2]), '.'.join(dns_name.split('.')[-2:])
 
-        ip_address, ip_address_type = my_ip_address()
+            ip_address, ip_address_type = my_ip_address()
 
-        print('MY IP: %s %s' % (dns_name, ip_address))
+            print('MY IP: %s %s' % (dns_name, ip_address))
 
-        cf = CloudFlare.CloudFlare(token=token)
+            cf = CloudFlare.CloudFlare(token=token)
 
-        # grab the zone identifier
-        try:
-            params = {'name':zone_name}
-            zones = cf.zones.get(params=params)
-        except CloudFlare.exceptions.CloudFlareAPIError as e:
-            exit('/zones %d %s - api call failed' % (e, e))
-        except Exception as e:
-            exit('/zones.get - %s - api call failed' % (e))
+            # grab the zone identifier
+            try:
+                params = {'name':zone_name}
+                zones = cf.zones.get(params=params)
+            except CloudFlare.exceptions.CloudFlareAPIError as e:
+                exit('/zones %d %s - api call failed' % (e, e))
+            except Exception as e:
+                exit('/zones.get - %s - api call failed' % (e))
 
-        if len(zones) == 0:
-            exit('/zones.get - %s - zone not found' % (zone_name))
+            if len(zones) == 0:
+                exit('/zones.get - %s - zone not found' % (zone_name))
 
-        if len(zones) != 1:
-            exit('/zones.get - %s - api call returned %d items' % (zone_name, len(zones)))
+            if len(zones) != 1:
+                exit('/zones.get - %s - api call returned %d items' % (zone_name, len(zones)))
 
-        zone = zones[0]
+            zone = zones[0]
 
-        zone_name = zone['name']
-        zone_id = zone['id']
+            zone_name = zone['name']
+            zone_id = zone['id']
 
-        do_dns_update(cf, zone_name, zone_id, dns_name, ip_address, ip_address_type)
-        print('Now sleeping for ' + str(timeout) + ' seconds')
-        time.sleep(timeout)
+            do_dns_update(cf, zone_name, zone_id, dns_name, ip_address, ip_address_type)
+            print('Now sleeping for ' + str(timeout) + ' seconds')
+            time.sleep(timeout)
+
 
 if __name__ == '__main__':
     main()
