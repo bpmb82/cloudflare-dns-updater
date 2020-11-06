@@ -10,6 +10,6 @@ To create a token, see: https://developers.cloudflare.com/api/tokens/create
 
 ## Environment variables
 
-* HOST: your hostname (e.g. example.com)
+* HOST: your hostname (e.g. example.com) or comma-separated list of hostnames (e.g. first.example.com,second.example.com)
 * TOKEN: your Cloudflare token
 * TIMEOUT: timeout in seconds between checks (default 60 seconds)
