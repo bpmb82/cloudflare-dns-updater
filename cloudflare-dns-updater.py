@@ -7,6 +7,7 @@ import time
 
 token = os.getenv('TOKEN')
 host = os.getenv('HOST')
+host = host.split(',')
 timeout = int(os.getenv('TIMEOUT'))
 
 sys.path.insert(0, os.path.abspath('..'))
