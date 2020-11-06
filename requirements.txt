@@ -1,0 +1,3 @@
+# Requirements file for cloudflare dns updater
+cloudflare
+requests
