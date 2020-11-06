@@ -14,7 +14,7 @@ import CloudFlare
 
 def my_ip_address():
 
-    # This list is adjustable - plus some v6 enabled services are needed
+    # This list is adjustable, uncomment the one you want to use
     # url = 'http://myip.dnsomatic.com'
     # url = 'http://www.trackip.net/ip'
     # url = 'http://myexternalip.com/raw'
