@@ -138,7 +138,8 @@ def main():
 
             do_dns_update(cf, zone_name, zone_id, dns_name, ip_address, ip_address_type)
             print('Now sleeping for ' + str(timeout) + ' seconds')
-            time.sleep(timeout)
+            
+        time.sleep(timeout)
 
 
 if __name__ == '__main__':
