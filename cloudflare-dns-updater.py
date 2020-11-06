@@ -108,6 +108,8 @@ def main():
             except:
                 exit('usage: cloudflare-dns-updater.py fqdn-hostname')
 
+            print('Checking ' + i + '...')
+            
             host_name, zone_name = '.'.join(dns_name.split('.')[:2]), '.'.join(dns_name.split('.')[-2:])
 
             ip_address, ip_address_type = my_ip_address()
@@ -121,15 +123,15 @@ def main():
                 params = {'name':zone_name}
                 zones = cf.zones.get(params=params)
             except CloudFlare.exceptions.CloudFlareAPIError as e:
-                exit('/zones %d %s - api call failed' % (e, e))
+                print('/zones %d %s - api call failed' % (e, e))
             except Exception as e:
-                exit('/zones.get - %s - api call failed' % (e))
+                print('/zones.get - %s - api call failed' % (e))
 
             if len(zones) == 0:
-                exit('/zones.get - %s - zone not found' % (zone_name))
+                print('/zones.get - %s - zone not found' % (zone_name))
 
             if len(zones) != 1:
-                exit('/zones.get - %s - api call returned %d items' % (zone_name, len(zones)))
+                print('/zones.get - %s - api call returned %d items' % (zone_name, len(zones)))
 
             zone = zones[0]
 
@@ -137,8 +139,8 @@ def main():
             zone_id = zone['id']
 
             do_dns_update(cf, zone_name, zone_id, dns_name, ip_address, ip_address_type)
-            print('Now sleeping for ' + str(timeout) + ' seconds')
             
+        print('Now sleeping for ' + str(timeout) + ' seconds...')
         time.sleep(timeout)
 
 
