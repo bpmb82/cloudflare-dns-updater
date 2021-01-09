@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 FILE_AGE=$((x=$TIMEOUT+$TIMEOUT,z=x/$TIMEOUT))
 
