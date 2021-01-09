@@ -9,6 +9,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY healthcheck.sh ./
 COPY cloudflare-dns-updater.py ./
+RUN chmod +x ./healthcheck.sh
 
 HEALTHCHECK --interval=2m --timeout=5s \ 
   CMD ./healthcheck.sh
