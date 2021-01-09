@@ -9,9 +9,15 @@ token = os.getenv('TOKEN')
 host = os.getenv('HOST')
 host = host.split(',')
 timeout = int(os.getenv('TIMEOUT'))
+healthcheck_file = os.getenv('HEALTHFILE')
 
 sys.path.insert(0, os.path.abspath('..'))
 import CloudFlare
+
+def create_healthcheck_file():
+    f = open(healthcheck_file, "w")
+    f.write("OK")
+    f.close()
 
 def my_ip_address():
 
@@ -101,6 +107,8 @@ def do_dns_update(cf, zone_name, zone_id, dns_name, ip_address, ip_address_type)
 def main():
 
     while True:
+        print('Renewing healthcheck file...")
+        create_healthcheck_file()
         print('Checking to see if the public IP has changed...')
         for i in host:
             try:
