@@ -63,11 +63,11 @@ def do_dns_update(cf, zone_name, zone_id, dns_name, ip_address, ip_address_type)
         if ip_address_type != old_ip_address_type:
             # only update the correct address type (A or AAAA)
             # we don't see this becuase of the search params above
-            print('[ warning ] IGNORED: %s %s ; wrong address family' % (dns_name, old_ip_address))
+            print(time.ctime(time.time()),'[ warning ] IGNORED: %s %s ; wrong address family' % (dns_name, old_ip_address))
             continue
 
         if ip_address == old_ip_address:
-            print('[ info ] UNCHANGED: %s %s' % (dns_name, ip_address))
+            print(time.ctime(time.time()),'[ info ] UNCHANGED: %s %s' % (dns_name, ip_address))
             updated = True
             continue
 
@@ -86,7 +86,7 @@ def do_dns_update(cf, zone_name, zone_id, dns_name, ip_address, ip_address_type)
             dns_record = cf.zones.dns_records.put(zone_id, dns_record_id, data=dns_record)
         except CloudFlare.exceptions.CloudFlareAPIError as e:
             exit('/zones.dns_records.put %s - %d %s - api call failed' % (dns_name, e, e))
-        print('[ info ] UPDATED: %s %s -> %s' % (dns_name, old_ip_address, ip_address))
+        print(time.ctime(time.time()),'[ info ] UPDATED: %s %s -> %s' % (dns_name, old_ip_address, ip_address))
         updated = True
 
     if updated:
@@ -102,27 +102,27 @@ def do_dns_update(cf, zone_name, zone_id, dns_name, ip_address, ip_address_type)
         dns_record = cf.zones.dns_records.post(zone_id, data=dns_record)
     except CloudFlare.exceptions.CloudFlareAPIError as e:
         exit('/zones.dns_records.post %s - %d %s - api call failed' % (dns_name, e, e))
-    print('[ info ] CREATED: %s %s' % (dns_name, ip_address))
+    print(time.ctime(time.time()),'[ info ] CREATED: %s %s' % (dns_name, ip_address))
 
 def main():
 
     while True:
-        print('[ info ] Renewing healthcheck file...')
+        print(time.ctime(time.time()),'[ info ] Renewing healthcheck file...')
         create_healthcheck_file()
-        print('[ info ] Checking to see if the public IP has changed...')
+        print(time.ctime(time.time()),'[ info ] Checking to see if the public IP has changed...')
         for i in host:
             try:
                 dns_name = i
             except:
                 exit('usage: cloudflare-dns-updater.py fqdn-hostname')
 
-            print('[ info ] Checking ' + i + '...')
+            print(time.ctime(time.time()),'[ info ] Checking ' + i + '...')
             
             host_name, zone_name = '.'.join(dns_name.split('.')[:2]), '.'.join(dns_name.split('.')[-2:])
 
             ip_address, ip_address_type = my_ip_address()
 
-            print('[ info ] MY IP: %s %s' % (dns_name, ip_address))
+            print(time.ctime(time.time()),'[ info ] MY IP: %s %s' % (dns_name, ip_address))
 
             cf = CloudFlare.CloudFlare(token=token)
 
@@ -131,15 +131,15 @@ def main():
                 params = {'name':zone_name}
                 zones = cf.zones.get(params=params)
             except CloudFlare.exceptions.CloudFlareAPIError as e:
-                print('[ error ] /zones %d %s - api call failed' % (e, e))
+                print(time.ctime(time.time()),'[ error ] /zones %d %s - api call failed' % (e, e))
             except Exception as e:
-                print('[ error ] /zones.get - %s - api call failed' % (e))
+                print(time.ctime(time.time()),'[ error ] /zones.get - %s - api call failed' % (e))
 
             if len(zones) == 0:
-                print('[ error ] /zones.get - %s - zone not found' % (zone_name))
+                print(time.ctime(time.time()),'[ error ] /zones.get - %s - zone not found' % (zone_name))
 
             if len(zones) != 1:
-                print('[ error ] /zones.get - %s - api call returned %d items' % (zone_name, len(zones)))
+                print(time.ctime(time.time()),'[ error ] /zones.get - %s - api call returned %d items' % (zone_name, len(zones)))
 
             zone = zones[0]
 
@@ -148,7 +148,7 @@ def main():
 
             do_dns_update(cf, zone_name, zone_id, dns_name, ip_address, ip_address_type)
             
-        print('[ info ] Now sleeping for ' + str(timeout) + ' seconds...')
+        print(time.ctime(time.time()),'[ info ] Now sleeping for ' + str(timeout) + ' seconds...')
         time.sleep(timeout)
 
 
