@@ -107,7 +107,7 @@ def do_dns_update(cf, zone_name, zone_id, dns_name, ip_address, ip_address_type)
 def main():
 
     while True:
-        print('Renewing healthcheck file...")
+        print('Renewing healthcheck file...')
         create_healthcheck_file()
         print('Checking to see if the public IP has changed...')
         for i in host:
