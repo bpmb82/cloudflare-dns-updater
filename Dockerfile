@@ -1,6 +1,6 @@
 FROM python:3.9.1-alpine3.12
 
-ENV HEALTHFILE "/healtchcheck"
+ENV HEALTHFILE "/healthcheck"
 
 WORKDIR /usr/src/app
 
