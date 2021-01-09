@@ -1,5 +1,7 @@
 FROM python:latest
 
+ENV HEALTHFILE "/healtchcheck"
+
 WORKDIR /usr/src/app
 
 COPY requirements.txt ./
