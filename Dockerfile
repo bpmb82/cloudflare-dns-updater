@@ -1,6 +1,6 @@
 FROM python:latest
 
-ENV HEALTHFILE "/healtchcheck"
+ENV HEALTHFILE "/healthcheck"
 
 WORKDIR /usr/src/app
 
