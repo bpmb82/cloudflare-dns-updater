@@ -9,7 +9,7 @@ token = os.getenv('TOKEN')
 host = os.getenv('HOST')
 host = host.split(',')
 timeout = int(os.getenv('TIMEOUT'))
-healthcheck_file = "/healthcheck"
+healthcheck_file = os.getenv('HEALTHFILE')
 
 sys.path.insert(0, os.path.abspath('..'))
 import CloudFlare
