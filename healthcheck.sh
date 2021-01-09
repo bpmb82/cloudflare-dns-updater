@@ -1,6 +1,6 @@
 #!/bin/sh
 
-FILE_AGE=$((x=$TIMEOUT+$TIMEOUT,z=x/$TIMEOUT))
+FILE_AGE=$((x=$TIMEOUT*3,z=x/$TIMEOUT))
 
 HEALTH=$(find $HEALTHFILE -mtime +$FILE_AGE)
 
