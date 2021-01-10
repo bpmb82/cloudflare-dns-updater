@@ -1,17 +1,18 @@
-FROM python:3.9.1-alpine3.12
-
-ENV HEALTHFILE "/healthcheck"
+FROM python:3.9.1-slim-buster AS build-env
 
 WORKDIR /usr/src/app
-
 COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+RUN python3 -m venv /venv && \
+    /venv/bin/pip install --no-cache-dir -r requirements.txt
 
-COPY healthcheck.sh ./
+FROM gcr.io/distroless/python3-debian10
+COPY --from=build-env /venv /venv
+WORKDIR /usr/src/app
+#COPY healthcheck.sh ./
 COPY cloudflare-dns-updater.py ./
-RUN chmod +x ./healthcheck.sh
+#RUN chmod +x ./healthcheck.sh
 
-HEALTHCHECK --interval=2m --timeout=5s \ 
-  CMD ./healthcheck.sh
+#HEALTHCHECK --interval=2m --timeout=5s \ 
+#  CMD ./healthcheck.sh
 
-CMD [ "python", "./cloudflare-dns-updater.py" ]
+ENTRYPOINT [ "/venv/bin/python3", "cloudflare-dns-updater.py" ]
