@@ -15,11 +15,10 @@ ENV HEALTHFILE "/healthcheck"
 
 COPY --from=build-env /venv /venv
 WORKDIR /usr/src/app
-#COPY healthcheck.sh ./
+COPY healthcheck.py ./
 COPY cloudflare-dns-updater.py ./
-#RUN chmod +x ./healthcheck.sh
 
-#HEALTHCHECK --interval=2m --timeout=5s \ 
-#  CMD ./healthcheck.sh
+HEALTHCHECK --interval=2m --timeout=5s \ 
+  CMD [ "/venv/bin/python3", "healthcheck.py" ]
 
 ENTRYPOINT [ "/venv/bin/python3", "cloudflare-dns-updater.py" ]
