@@ -25,6 +25,6 @@ COPY healthcheck.py .
 COPY cloudflare-dns-updater.py .
 
 HEALTHCHECK --interval=2m --timeout=5s \
-  CMD [ "/venv/bin/python3", "healthcheck.py" ]
+  CMD [ "/venv/bin/python3", "-u", "healthcheck.py" ]
 
-ENTRYPOINT ["/venv/bin/python3","cloudflare-dns-updater.py"]
+ENTRYPOINT ["/venv/bin/python3", "-u", "cloudflare-dns-updater.py"]
