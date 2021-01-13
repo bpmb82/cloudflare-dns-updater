@@ -24,7 +24,7 @@ WORKDIR /app
 COPY healthcheck.py .
 COPY cloudflare-dns-updater.py .
 
-HEALTHCHECK --interval=2m --timeout=5s \ 
+HEALTHCHECK --interval=2m --timeout=5s \
   CMD [ "/venv/bin/python3", "healthcheck.py" ]
 
 ENTRYPOINT ["/venv/bin/python3","cloudflare-dns-updater.py"]
