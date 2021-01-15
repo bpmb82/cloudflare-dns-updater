@@ -1,6 +1,6 @@
 # cloudflare-dns-updater
 
-A simple docker image that can update your Cloudflare DNS if you have a Dynamic IP
+A simple, distroless docker image that can update your Cloudflare DNS if you have a Dynamic IP
 
 # Installation
 
