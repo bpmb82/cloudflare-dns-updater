@@ -1,5 +1,6 @@
 import pathlib
 import os
+import time
 
 # Assign the environment variables
 healthcheck_file = os.getenv('HEALTHFILE')
