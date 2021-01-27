@@ -107,8 +107,7 @@ def do_dns_update(cf, zone_name, zone_id, dns_name, ip_address, ip_address_type)
 def main():
 
     while True:
-        print(time.ctime(time.time()),'[ info ] Renewing healthcheck file...')
-        create_healthcheck_file()
+
         print(time.ctime(time.time()),'[ info ] Checking to see if the public IP has changed...')
         for i in host:
             try:
@@ -148,6 +147,8 @@ def main():
 
             do_dns_update(cf, zone_name, zone_id, dns_name, ip_address, ip_address_type)
             
+        print(time.ctime(time.time()),'[ info ] Renewing healthcheck file...')
+        create_healthcheck_file()
         print(time.ctime(time.time()),'[ info ] Now sleeping for ' + str(timeout) + ' seconds...')
         time.sleep(timeout)
 
